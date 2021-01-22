@@ -1,4 +1,9 @@
+@import './../../style/var.scss';
+
 .side-panel {
+  height: 100%;
+  padding: 0 5px;
+  border-right: $br-1;
   .side-panel__cmp-list {
     display: flex;
     justify-content: space-between;
