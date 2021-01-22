@@ -1,0 +1,22 @@
+.editor-cmp {
+  height: 100%;
+  padding: 0 10px;
+  border-left: 1px solid rgba(0, 0, 0, 0.16);
+  overflow: auto;
+  &__props {
+    &-item {
+      margin: 14px 0;
+      .prop-label {
+        margin-bottom: 5px;
+      }
+      .prop-value {
+        .ant-select {
+          width: 100%;
+        }
+      }
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}

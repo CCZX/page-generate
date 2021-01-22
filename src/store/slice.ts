@@ -3,7 +3,7 @@ import allCmpsListSchema from './../cmps'
 import { uuid } from './../utils'
 import { ICmpSchema } from './../cmps/type'
 
-const mock = {
+const mock: ICmpSchema = {
   "type": "Button",
   "label": "按钮",
   "props": [
@@ -41,8 +41,20 @@ const mock = {
       "key": "size",
       "label": "尺寸",
       "type": "Select",
-      "defaultValue": "",
-      "dataSource": []
+      "defaultValue": "large",
+      "dataSource": [{
+        key: 'large',
+        label: '大',
+        value: 'large'
+      },{
+        key: 'medium',
+        label: '中',
+        value: 'medium'
+      },{
+        key: 'small',
+        label: '小',
+        value: 'small'
+      }]
     }
   ],
   "events": [
@@ -59,7 +71,7 @@ const initState: {
   renderedCmps: ICmpSchema[]
   selectedCmp: ICmpSchema
 } = {
-  renderedCmps: [],
+  renderedCmps: [mock],
   selectedCmp: mock
 }
 
@@ -85,8 +97,16 @@ export const pgSlice = createSlice({
       }
     },
     // 更新组件
-    updateCmp(state, action: PayloadAction<string>) {
-
+    updateCmp({ renderedCmps, selectedCmp }, action: PayloadAction<{
+      cmpKey: string, propKey: string, propValue: string
+    }>) {
+      const { payload: { cmpKey, propKey, propValue } } = action
+      const cmp = renderedCmps.find(cmp => cmp.key === cmpKey)
+      if (cmp) {
+        const propIndex = cmp.props.findIndex(prop => prop.key === propKey)
+        cmp.props[propIndex].defaultValue = propValue
+        selectedCmp.props[propIndex].defaultValue = propValue
+      }
     },
     // 当前选中的组件
     setSelectedCmp({ renderedCmps, selectedCmp }, action: PayloadAction<string>) {

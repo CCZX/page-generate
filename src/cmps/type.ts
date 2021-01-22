@@ -9,7 +9,7 @@ export interface ICmpSchema {
 export interface ICmpSchemaProp {
   key: string
   label: string
-  type: string // 配置该property时渲染的组件类型，比如Input、Select...
+  type: 'Input' | 'Select' // 配置该property时渲染的组件类型，只支持特定类型
   defaultValue?: string // 'v,v,v,v'
   dataSource?: IDataSource[]
 }

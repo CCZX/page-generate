@@ -2,7 +2,9 @@ import React, { FC, useCallback, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Tabs } from 'antd';
 import EditProps from './edit-props'
+import EditEvents from './edit-events'
 import { IAppState, actions } from './../../store'
+import './index.scss'
 
 const { TabPane } = Tabs;
 
@@ -15,6 +17,12 @@ const EditorCmp: FC<any> = (props) => {
   const selectedCmp = useSelector((state: IAppState) => {
     return state.selectedCmp
   })
+
+  const renderedCmps = useSelector((state: IAppState) => {
+    return state.renderedCmps
+  })
+
+  console.log(selectedCmp, renderedCmps)
 
   const [activeTabPane, setActiveTabPane] = useState<'props' | 'events'>('props')
 
@@ -32,7 +40,7 @@ const EditorCmp: FC<any> = (props) => {
         <EditProps cmp={selectedCmp} />
       </TabPane>
       <TabPane tab="事件" key="events">
-        Content of Tab Pane 2
+        <EditEvents cmp={selectedCmp} />
       </TabPane>
     </Tabs>
   </div>
