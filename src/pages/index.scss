@@ -1,0 +1,22 @@
+.pg-container {
+  .pg-header {
+    height: 40px;
+    outline: 1px solid red;
+  }
+  .pg-body {
+    display: flex;
+    height: calc(100vh - 40px);
+    .side-panel {
+      width: 200px;
+      outline: 1px solid red;
+    }
+    .editor-layout {
+      flex: 1;
+      outline: 1px solid red;
+    }
+    .setting-props {
+      width: 300px;
+      outline: 1px solid red;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.drag-source-cmp-list {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .drag-source-cmp-item {
+    width: 80px;
+    height: 20px;
+    padding: 5px;
+    text-align: center;
+    line-height: 20px;
+    border: 1px solid black;
+  }
+}
