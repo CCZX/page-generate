@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
 const EditorLayout: FC<any> = (props) => {
-  return <div>
+  return <div className="editor-layout">
 
   </div>
 }

@@ -6,15 +6,15 @@
   .pg-body {
     display: flex;
     height: calc(100vh - 40px);
-    .side-panel {
+    .side-panel-wrapper {
       width: 200px;
       outline: 1px solid red;
     }
-    .editor-layout {
+    .editor-layout-wrapper {
       flex: 1;
       outline: 1px solid red;
     }
-    .setting-props {
+    .editor-cmp-wrapper {
       width: 300px;
       outline: 1px solid red;
     }

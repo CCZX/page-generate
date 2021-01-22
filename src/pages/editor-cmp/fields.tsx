@@ -1,14 +1,11 @@
 import { Input, Select } from 'antd'
 
-type IFieldsType = 'Input' | 'Select'
-
-const fieldsMap: {
-  [key: string]: Function
-} = {
+const fieldsMap: { [key: string]: Function } = {
   Input: Input,
   Select: Select
 }
 
 export function getField(type: string) {
-  return fieldsMap[type]
+  const field = fieldsMap[type] || Input
+  return field
 }

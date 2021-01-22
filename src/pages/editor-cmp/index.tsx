@@ -6,7 +6,11 @@ import { IAppState, actions } from './../../store'
 
 const { TabPane } = Tabs;
 
-const SettingProps: FC<any> = (props) => {
+/**
+ * 自定义编辑组件的props以及events
+ * @param props 
+ */
+const EditorCmp: FC<any> = (props) => {
   
   const selectedCmp = useSelector((state: IAppState) => {
     return state.selectedCmp
@@ -18,7 +22,7 @@ const SettingProps: FC<any> = (props) => {
     setActiveTabPane(e)
   }, [])
 
-  return <div>
+  return <div className="editor-cmp">
     <Tabs
       defaultActiveKey={activeTabPane}
       centered={true}
@@ -34,4 +38,4 @@ const SettingProps: FC<any> = (props) => {
   </div>
 }
 
-export default SettingProps
+export default EditorCmp

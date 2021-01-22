@@ -10,7 +10,7 @@ const DragSourceCmpItem: FC<IDragSourceCmpItemProps> = ({ cmp }) => {
   const dispatch = useDispatch()
 
   return <div
-    className="drag-source-cmp-item"
+    className="cmp-item"
     draggable={true}
     onClick={() => dispatch(actions.createCmp(cmp.type))}
   >
@@ -24,15 +24,15 @@ const SidePanel: FC<any> = () => {
     return state
   })
 
-  return <React.Fragment>
-    <div className="drag-source-cmp-list">
+  return <div className="side-panel">
+    <div className="side-panel__cmp-list">
       {
         cmpsSchema.map(cmp => {
           return <DragSourceCmpItem key={cmp.type} cmp={cmp} />
         })
       }
     </div>
-  </React.Fragment>
+  </div>
 }
 
 export default SidePanel

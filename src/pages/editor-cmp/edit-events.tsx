@@ -5,15 +5,15 @@ import { getField } from './fields'
 import { IAppState, actions } from './../../store'
 import { ICmpSchema } from './../../cmps/type'
 
-interface IEditProps {
+interface IEditEventProps {
   cmp: ICmpSchema
 }
 
-const EditProps: FC<IEditProps> = ({ cmp }) => {
+const EditEvents: FC<IEditEventProps> = ({ cmp }) => {
 
   const { props: cmpProps } = cmp
 
-  return <div>
+  return <div className="editor-cmp__events">
     {
       cmpProps.map(prop => {
         const Field = getField(prop.type)
@@ -25,4 +25,4 @@ const EditProps: FC<IEditProps> = ({ cmp }) => {
   </div>
 }
 
-export default EditProps
+export default EditEvents
