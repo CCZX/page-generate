@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import { ICmpSchema } from './../../cmps/type'
 
 interface IEditEventProps {
   cmp: ICmpSchema

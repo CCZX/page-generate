@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import allCmpsListSchema from './../cmps'
 import { uuid } from './../utils'
-import { ICmpSchema } from './../cmps/type'
 
 const mock: ICmpSchema = {
   "type": "Button",
@@ -29,13 +28,13 @@ const mock: ICmpSchema = {
       "key": "width",
       "label": "宽",
       "type": "Input",
-      "defaultValue": "0,0,0,0"
+      "defaultValue": "auto"
     },
     {
       "key": "height",
       "label": "高",
       "type": "Input",
-      "defaultValue": "0,0,0,0"
+      "defaultValue": "auto"
     },
     {
       "key": "size",

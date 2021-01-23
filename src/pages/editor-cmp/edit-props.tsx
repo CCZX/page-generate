@@ -2,7 +2,6 @@ import React, { FC, useCallback, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getField } from './fields'
 import { IAppState, actions } from './../../store'
-import { ICmpSchema } from './../../cmps/type'
 
 interface IEditPropsProps {
   cmp: ICmpSchema

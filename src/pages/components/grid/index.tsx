@@ -1,7 +1,6 @@
 import { CSSProperties, FC, useEffect, useRef } from 'react'
 
 function draw(ctx: CanvasRenderingContext2D) {
-  console.log(ctx)
   ctx.save()
   ctx.fillStyle = 'white'
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
