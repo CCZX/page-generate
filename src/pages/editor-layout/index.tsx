@@ -1,10 +1,16 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
+import CmpItem from './cmp-item'
+import { IAppState } from './../../store'
 import Grid from './../components/grid'
 import './index.scss'
 
 const EditorLayout: FC<any> = (props) => {
   const editorRef = useRef<HTMLDivElement>(null)
   const [editorRect, setEditorRect] = useState({width: 0, height: 0})
+  const renderedCmps = useSelector((state: IAppState) => {
+    return state.renderedCmps
+  })
 
   useEffect(() => {
     function getEditorRect() {
@@ -24,7 +30,11 @@ const EditorLayout: FC<any> = (props) => {
 
   return <div ref={editorRef} className="editor-layout">
     <Grid width={editorRect.width} height={editorRect.height} />
-    editor-layout
+    {
+      renderedCmps.map(cmp => {
+        return <CmpItem cmp={cmp} />
+      })
+    }
   </div>
 }
 
