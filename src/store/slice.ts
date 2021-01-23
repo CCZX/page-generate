@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import clonedeep from 'lodash.clonedeep'
 import allCmpsListSchema from './../cmps'
 import { uuid } from './../utils'
 
@@ -70,8 +71,10 @@ const initState: {
   renderedCmps: ICmpSchema[]
   selectedCmp: ICmpSchema
 } = {
-  renderedCmps: [mock],
-  selectedCmp: mock
+  // renderedCmps: [mock],
+  // selectedCmp: mock,
+  renderedCmps: [],
+  selectedCmp: {} as ICmpSchema,
 }
 
 export const pgSlice = createSlice({
@@ -82,9 +85,11 @@ export const pgSlice = createSlice({
     createCmp({ renderedCmps }, action: PayloadAction<string>) {
       const { payload: type } = action
       const cmp = allCmpsListSchema.find(cmp => cmp.type === type)
-      if (cmp) {
-        cmp.key = uuid()
-        renderedCmps.push(cmp)
+      // 使用 clonedeep 防止修改同一个对象
+      const cloneCmp = clonedeep(cmp)
+      if (cloneCmp) {
+        cloneCmp.key = uuid()
+        renderedCmps.push(cloneCmp)
       }
     },
     // 删除组件
@@ -108,11 +113,11 @@ export const pgSlice = createSlice({
       }
     },
     // 当前选中的组件
-    setSelectedCmp({ renderedCmps, selectedCmp }, action: PayloadAction<string>) {
+    setSelectedCmp(state, action: PayloadAction<string>) {
       const { payload: key } = action
-      const cmp = renderedCmps.find(cmp => cmp.key === key)
+      const cmp = state.renderedCmps.find(cmp => cmp.key === key)
       if (cmp) {
-        selectedCmp = cmp
+        state.selectedCmp = cmp
       }
     },
   }

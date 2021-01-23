@@ -31,6 +31,7 @@ const EditorCmp: FC<any> = (props) => {
   }, [])
 
   return <div className="editor-cmp">
+    {selectedCmp.key}
     <Tabs
       defaultActiveKey={activeTabPane}
       centered={true}

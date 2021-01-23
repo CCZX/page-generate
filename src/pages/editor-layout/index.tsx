@@ -1,13 +1,16 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
-import CmpItem from './cmp-item'
-import { IAppState } from './../../store'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import Grid from './../components/grid'
+import CmpItem from './cmp-item'
+import cmpsSchema from '../../cmps'
+import { IAppState, actions } from './../../store'
+import { DRAG_DROP_CMP } from './../../const'
 import './index.scss'
 
 const EditorLayout: FC<any> = (props) => {
   const editorRef = useRef<HTMLDivElement>(null)
   const [editorRect, setEditorRect] = useState({width: 0, height: 0})
+  const dispatch = useDispatch()
   const renderedCmps = useSelector((state: IAppState) => {
     return state.renderedCmps
   })
@@ -28,11 +31,27 @@ const EditorLayout: FC<any> = (props) => {
     }
   }, [])
 
-  return <div ref={editorRef} className="editor-layout">
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    console.log('handleDragOver')
+    e.preventDefault()
+  }, [])
+
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    const cmpType = e.dataTransfer.getData(DRAG_DROP_CMP)
+    dispatch(actions.createCmp(cmpType))
+  }, [])
+
+  return <div
+    ref={editorRef}
+    className="editor-layout"
+    onDragOver={handleDragOver}
+    onDrop={handleDrop}
+  >
     <Grid width={editorRect.width} height={editorRect.height} />
     {
       renderedCmps.map(cmp => {
-        return <CmpItem cmp={cmp} />
+        return <CmpItem key={cmp.key} cmp={cmp} />
       })
     }
   </div>
