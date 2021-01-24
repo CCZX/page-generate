@@ -1,5 +1,4 @@
 import { cmpSchemaCommonProps } from '../const'
-import { ICmpSchema } from './../type'
 
 const ButtonConfig: ICmpSchema[] = [
   {

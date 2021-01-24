@@ -1,5 +1,3 @@
-import { ICmpSchemaProp } from './type'
-
 export const cmpSchemaCommonProps: ICmpSchemaProp[] = [
   {
     key: 'margin',

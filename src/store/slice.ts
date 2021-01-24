@@ -82,13 +82,16 @@ export const pgSlice = createSlice({
   initialState: initState,
   reducers: {
     // 新增组件
-    createCmp(state, action: PayloadAction<string>) {
-      const { payload: type } = action
-      const cmp = allCmpsListSchema.find(cmp => cmp.type === type)
+    createCmp(state, action: PayloadAction<{
+      cmpType: string, cmpPosition: { top: number, left: number }
+    }>) {
+      const { payload: { cmpType, cmpPosition } } = action
+      const cmp = allCmpsListSchema.find(cmp => cmp.type === cmpType)
       // 使用 clonedeep 防止修改同一个对象
       const cloneCmp = clonedeep(cmp)
       if (cloneCmp) {
         cloneCmp.key = uuid()
+        cloneCmp.position = cmpPosition
         state.renderedCmps.push(cloneCmp)
         state.selectedCmp = cloneCmp
       }

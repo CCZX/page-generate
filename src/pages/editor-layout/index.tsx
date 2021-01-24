@@ -15,6 +15,8 @@ const EditorLayout: FC<any> = (props) => {
     return state.renderedCmps
   })
 
+  let editorPosition = { top: 0, left: 0 }
+
   useEffect(() => {
     function getEditorRect() {
       const rect = editorRef.current?.getBoundingClientRect()
@@ -22,6 +24,7 @@ const EditorLayout: FC<any> = (props) => {
         width: rect?.width || 0,
         height: rect?.height || 0,
       })
+      editorPosition = { top: rect?.top || 0, left: rect?.left || 0 }
     }
     getEditorRect()
     window.addEventListener('resize', getEditorRect)
@@ -32,14 +35,16 @@ const EditorLayout: FC<any> = (props) => {
   }, [])
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    console.log('handleDragOver')
     e.preventDefault()
   }, [])
 
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
+    const { clientX, clientY } = e
+    const { left, top } = editorPosition
+    const cmpPosition = { top: clientY - top, left: clientX - left }
     const cmpType = e.dataTransfer.getData(DRAG_DROP_CMP)
-    dispatch(actions.createCmp(cmpType))
+    dispatch(actions.createCmp({ cmpType, cmpPosition }))
   }, [])
 
   return <div

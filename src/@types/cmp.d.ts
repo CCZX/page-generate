@@ -1,15 +1,19 @@
 declare interface ICmpSchema {
   key?: string
-  type: string // 组件的类型，比如button，table...，渲染组件时会通过type获取对应的组件
+  type: string // 组件的类型，比如 button，table...，渲染组件时会通过type获取对应的组件
   label: string // 组件的文字描述比如按钮、表单...
-  props: ICmpSchemaProp[] // 组件的props
+  position?: { // 相对于 editorlayout 的位置，拖入布局后生成
+    top: number,
+    left: number
+  }
+  props: ICmpSchemaProp[] // 组件的 props
   events: ICmpSchemaEvent[] // 组件的事件
 }
 
 declare interface ICmpSchemaProp {
   key: string
   label: string
-  type: 'Input' | 'Select' // 配置该property时渲染的组件类型，只支持特定类型
+  type: 'Input' | 'Select' // 配置该 property 时渲染的组件类型，只支持特定类型
   defaultValue?: string // 'v,v,v,v'
   dataSource?: IDataSource[]
 }
