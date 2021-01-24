@@ -6,5 +6,8 @@
     position: absolute;
     display: inline-block;
     border: 1px solid rgba(0, 0, 0, .8);
+    &.active {
+      border: 1px solid #40a9ff;
+    }
   }
 }
