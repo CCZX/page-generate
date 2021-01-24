@@ -1,11 +1,14 @@
 import { CSSProperties, FC, useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { getCmpField } from './../../cmps/field'
 import { actions, IAppState } from './../../store'
 import { useDragPosition } from './../../utils'
 
 interface ICmpItemProps {
   cmp: ICmpSchema
 }
+
+const DEFAULT_CLS = "cmp-item-wrapper"
 
 const CmpItem: FC<ICmpItemProps> = ({ cmp }) => {
   const { props } = cmp
@@ -42,14 +45,16 @@ const CmpItem: FC<ICmpItemProps> = ({ cmp }) => {
     width: props.find(p => p.key === 'width')?.defaultValue + 'px',
     ...cmpPosition,
   }
+  const Cmp = getCmpField(cmp.type)
 
   return <div
     ref={dragRef}
-    className={ selectedCmp.key === cmp.key ? "cmp-item active" : "cmp-item"}
+    className={ selectedCmp.key === cmp.key ? `${DEFAULT_CLS} active` : `${DEFAULT_CLS}`}
     style={style}
     onClick={handleClick}
   >
     {cmp.label}
+    <Cmp children={cmp.label} />
   </div>
 }
 

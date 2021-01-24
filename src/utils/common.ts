@@ -24,3 +24,14 @@ export function isEmpty(target: any) {
 		return Object.keys(target).length === 0
 	}
 }
+
+export function findParentNode(e: HTMLElement, parentCls: string) {
+	let curr: HTMLElement | null = e
+	while (curr) {
+		if (curr.classList.contains(parentCls)) {
+			return curr
+		}
+		curr = curr.parentElement
+	}
+	return null
+}

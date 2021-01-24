@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { findParentNode } from './common'
 
 export function useDebounce() {
   
@@ -13,14 +14,13 @@ export function useDragPosition<T extends HTMLElement>(): [React.RefObject<T>, b
 
   function handleMousemove(e: MouseEvent) {
     e.preventDefault()
-    console.log(',ousemove')
-    setMoveing(true)
     const { clientX, clientY } = e
     let diffX = clientX - startX
     let diffY = clientY - startY
     const nextTop = originTop + diffY
     const nextLeft = originLeft + diffX
     setPosition({ left: nextLeft, top: nextTop })
+    setMoveing(true)
   }
 
   function handleMouseleave() {
@@ -31,9 +31,14 @@ export function useDragPosition<T extends HTMLElement>(): [React.RefObject<T>, b
 
   useEffect(() => {
     dragRef.current?.addEventListener('mousedown', (e: any) => {
-      const { top = '0', left = '0' } = e.target?.style || {}
-      originTop = parseInt(top)
-      originLeft = parseInt(left)
+      const cmpWrapper = findParentNode(e.target, 'cmp-item-wrapper')
+      if (!cmpWrapper) {
+        console.warn(`[warning]`)
+        return
+      }
+      const { top = '0', left = '0' } = cmpWrapper.style || {}
+      originTop = parseInt(top || '0')
+      originLeft = parseInt(left || '0')
       startX = e.clientX
       startY = e.clientY
       document.addEventListener('mousemove', handleMousemove)
