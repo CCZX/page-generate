@@ -7,11 +7,10 @@ const TextConfig: ICmpSchema[] = [
     props: [
       ...cmpSchemaCommonProps,
       {
-        key: 'size',
-        label: '尺寸',
-        type: 'Select',
+        key: 'content',
+        label: '文本内容',
+        type: 'Input',
         defaultValue: '',
-        dataSource: []
       }
     ],
     events: [

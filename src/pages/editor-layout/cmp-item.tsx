@@ -53,7 +53,6 @@ const CmpItem: FC<ICmpItemProps> = ({ cmp }) => {
     style={style}
     onClick={handleClick}
   >
-    {cmp.label}
     <Cmp children={cmp.label} />
   </div>
 }

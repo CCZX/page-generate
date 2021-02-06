@@ -6,7 +6,8 @@ import EditorCmp from './editor-cmp'
 import './index.scss'
 
 // Handwerker
-const App: FC<any> = () => {
+const App: FC = () => {
+  console.log('app-render')
   return <div className="pg-container">
     <header className="pg-header">
       <HeaderMenu />
