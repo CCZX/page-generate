@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { findParentNode } from './common'
 
 export function useDebounce() {
   
 }
 
-export function useDragPosition<T extends HTMLElement>(): [React.RefObject<T>, boolean, {left: number, top: number}] {
+export function useMove<T extends HTMLElement>(): [React.RefObject<T>, boolean, {left: number, top: number}] {
   const dragRef = useRef<T>(null)
   const [isMoveing, setMoveing] = useState(false)
   const [positon, setPosition] = useState({left: 0, top: 0})
@@ -48,4 +48,29 @@ export function useDragPosition<T extends HTMLElement>(): [React.RefObject<T>, b
   }, [dragRef.current])
 
   return [dragRef, isMoveing, positon]
+}
+
+export function useClickOutside(dom: HTMLElement, callback: noop) {
+
+  const handleClickOutside = (e: MouseEvent) => {
+    console.log(e.target, dom)
+    if (e.target && !dom?.contains(e.target as Node)) {
+      callback(e)
+    }
+  }
+
+  // const handleClickOutside = useCallback((e: MouseEvent) => {
+  //   console.log(e.target, dom)
+  //   if (e.target && !dom?.contains(e.target as Node)) {
+  //     callback(e)
+  //   }
+  // }, [callback, dom])
+
+  useEffect(() => {
+    window.addEventListener('click', handleClickOutside)
+
+    return () => {
+      window.removeEventListener('click', handleClickOutside)
+    }
+  })
 }

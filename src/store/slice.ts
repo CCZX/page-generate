@@ -119,10 +119,8 @@ export const pgSlice = createSlice({
     // 当前选中的组件
     setSelectedCmp(state, action: PayloadAction<string>) {
       const { payload: key } = action
-      const cmp = state.renderedCmps.find(cmp => cmp.key === key)
-      if (cmp) {
-        state.selectedCmp = cmp
-      }
+      const cmp = state.renderedCmps.find(cmp => cmp.key === key) || {}
+      state.selectedCmp = cmp as ICmpSchema
     },
   }
 })

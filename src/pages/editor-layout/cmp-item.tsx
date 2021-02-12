@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Cover from './../components/cover'
 import { getCmpField } from './../../cmps/field'
 import { actions, IAppState } from './../../store'
-import { useDragPosition } from './../../utils'
+import { useMove, findParentNode } from './../../utils'
 import { processRenderCmpProps } from './utils'
 
 interface ICmpItemProps {
@@ -12,18 +12,35 @@ interface ICmpItemProps {
 }
 
 const DEFAULT_CLS = "cmp-item-wrapper"
+const EDITOR_LAYOUT_CLS = 'editor-layout'
 
 const CmpItem: FC<ICmpItemProps> = (props) => {
   const { cmp } = props
   const dispatch = useDispatch()
-  const [dragRef, isMoveing, diffPosition] = useDragPosition<HTMLDivElement>()
+  const [dragRef, isMoveing, diffPosition] = useMove<HTMLDivElement>()
 
   const selectedCmp =  useSelector((state: IAppState) => {
     return state.selectedCmp
   })
 
   const handleClick = useCallback(() => {
+    dragRef.current?.classList.add('active')
     dispatch(actions.setSelectedCmp(cmp.key || ''))
+  }, [])
+
+  useEffect(() => {
+    const editorLayoutDOM = document.querySelector(`.${EDITOR_LAYOUT_CLS}`)
+    function handleClick(e: Event) {
+      const parent = findParentNode(e.target as HTMLElement, DEFAULT_CLS)
+      if (!parent) {
+        dragRef.current?.classList.remove('active')
+        dispatch(actions.setSelectedCmp(''))
+      }
+    }
+    editorLayoutDOM?.addEventListener('click', handleClick)
+    return () => {
+      editorLayoutDOM?.removeEventListener('click', handleClick)
+    }
   }, [])
 
   const cmpPosition = useMemo(() => {
