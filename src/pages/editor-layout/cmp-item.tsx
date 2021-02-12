@@ -1,18 +1,20 @@
 import { CSSProperties, FC, useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Cover from './../components/cover'
 import { getCmpField } from './../../cmps/field'
 import { actions, IAppState } from './../../store'
 import { useDragPosition } from './../../utils'
 import { processRenderCmpProps } from './utils'
 
 interface ICmpItemProps {
-  cmp: ICmpSchema
+  cmp: ICmpSchema,
+  isPreview: boolean
 }
 
 const DEFAULT_CLS = "cmp-item-wrapper"
 
-const CmpItem: FC<ICmpItemProps> = ({ cmp }) => {
-  const { props } = cmp
+const CmpItem: FC<ICmpItemProps> = (props) => {
+  const { cmp } = props
   const dispatch = useDispatch()
   const [dragRef, isMoveing, diffPosition] = useDragPosition<HTMLDivElement>()
 
@@ -43,12 +45,12 @@ const CmpItem: FC<ICmpItemProps> = ({ cmp }) => {
   }, [diffPosition, isMoveing])
 
   const style: CSSProperties = {
-    width: props.find(p => p.key === 'width')?.defaultValue + 'px',
+    width: (cmp.props || []).find(p => p.key === 'width')?.defaultValue + 'px',
     ...cmpPosition,
   }
   const RenderCmp = getCmpField(cmp.type)
 
-  const renderCmpPropsMap = processRenderCmpProps(props)
+  const renderCmpPropsMap = processRenderCmpProps(cmp.props)
 
   return <div
     ref={dragRef}
@@ -56,6 +58,7 @@ const CmpItem: FC<ICmpItemProps> = ({ cmp }) => {
     style={style}
     onClick={handleClick}
   >
+    <Cover />
     <RenderCmp {...renderCmpPropsMap} children={cmp.label} />
   </div>
 }

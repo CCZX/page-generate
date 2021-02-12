@@ -6,7 +6,13 @@ import { IAppState, actions } from './../../store'
 import { DRAG_DROP_CMP } from './../../const'
 import './index.scss'
 
-const EditorLayout: FC<any> = (props) => {
+interface IEditorLayoutProps {
+  isPreview?: boolean
+}
+
+const EditorLayout: FC<IEditorLayoutProps> = (props) => {
+  const { isPreview = false } = props
+
   const editorRef = useRef<HTMLDivElement>(null)
   const [editorRect, setEditorRect] = useState({width: 0, height: 0})
   const dispatch = useDispatch()
@@ -55,7 +61,7 @@ const EditorLayout: FC<any> = (props) => {
     <Grid width={editorRect.width} height={editorRect.height} />
     {
       renderedCmps.map(cmp => {
-        return <CmpItem key={cmp.key} cmp={cmp} />
+        return <CmpItem key={cmp.key} cmp={cmp} isPreview={isPreview} />
       })
     }
   </div>
