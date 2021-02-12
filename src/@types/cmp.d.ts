@@ -13,8 +13,8 @@ declare interface ICmpSchema {
 declare interface ICmpSchemaProp {
   key: string
   label: string
-  type: 'Input' | 'Select' // 配置该 property 时渲染的组件类型，只支持特定类型
-  defaultValue?: string // 'v,v,v,v'
+  type: 'Input' | 'Select' | 'Switch' // 配置该 property 时渲染的组件类型，只支持特定类型
+  defaultValue?: string | boolean // 'v,v,v,v'
   dataSource?: IDataSource[]
 }
 

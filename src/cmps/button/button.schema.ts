@@ -7,12 +7,37 @@ const ButtonConfig: ICmpSchema[] = [
     props: [
       ...cmpSchemaCommonProps,
       {
-        key: 'size',
-        label: '尺寸',
-        type: 'Select',
-        defaultValue: '',
+        key: 'danger',
+        label: '设置危险按钮',
+        type: 'Switch',
+        defaultValue: false,
         dataSource: []
-      }
+      },
+      {
+        key: 'size',
+        label: '设置按钮大小',
+        type: 'Select',
+        defaultValue: 'middle',
+        dataSource: [
+          {key: 'large', value: 'large', label: 'large'},
+          {key: 'middle', value: 'middle', label: 'middle'},
+          {key: 'small', value: 'small', label: 'small'},
+        ]
+      },
+      {
+        key: 'type',
+        label: '设置按钮类型',
+        type: 'Select',
+        defaultValue: 'default',
+        dataSource: [
+          {key: 'primary', value: 'primary', label: 'primary'},
+          {key: 'ghost', value: 'ghost', label: 'ghost'},
+          {key: 'dashed', value: 'dashed', label: 'dashed'},
+          {key: 'link', value: 'link', label: 'link'},
+          {key: 'text', value: 'text', label: 'text'},
+          {key: 'default', value: 'default', label: 'default'},
+        ]
+      },
     ],
     events: [
       {

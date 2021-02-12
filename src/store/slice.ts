@@ -106,7 +106,7 @@ export const pgSlice = createSlice({
     },
     // 更新组件
     updateCmp({ renderedCmps, selectedCmp }, action: PayloadAction<{
-      cmpKey: string, propKey: string, propValue: string
+      cmpKey: string, propKey: string, propValue: string | boolean
     }>) {
       const { payload: { cmpKey, propKey, propValue } } = action
       const cmp = renderedCmps.find(cmp => cmp.key === cmpKey)

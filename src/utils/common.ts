@@ -25,13 +25,13 @@ export function isEmpty(target: any) {
 	}
 }
 
-export function findParentNode(e: HTMLElement, parentCls: string) {
-	let curr: HTMLElement | null = e
-	while (curr) {
-		if (curr.classList.contains(parentCls)) {
-			return curr
+export function findParentNode(target: HTMLElement, parentCls: string) {
+	let currentElement: HTMLElement | null = target
+	while (currentElement) {
+		if (currentElement.classList.contains(parentCls)) {
+			return currentElement
 		}
-		curr = curr.parentElement
+		currentElement = currentElement.parentElement
 	}
 	return null
 }
