@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCmpField } from './../../cmps/field'
 import { actions, IAppState } from './../../store'
 import { useDragPosition } from './../../utils'
+import { processRenderCmpProps } from './utils'
 
 interface ICmpItemProps {
   cmp: ICmpSchema
@@ -45,7 +46,9 @@ const CmpItem: FC<ICmpItemProps> = ({ cmp }) => {
     width: props.find(p => p.key === 'width')?.defaultValue + 'px',
     ...cmpPosition,
   }
-  const Cmp = getCmpField(cmp.type)
+  const RenderCmp = getCmpField(cmp.type)
+
+  const renderCmpPropsMap = processRenderCmpProps(props)
 
   return <div
     ref={dragRef}
@@ -53,7 +56,7 @@ const CmpItem: FC<ICmpItemProps> = ({ cmp }) => {
     style={style}
     onClick={handleClick}
   >
-    <Cmp children={cmp.label} />
+    <RenderCmp {...renderCmpPropsMap} children={cmp.label} />
   </div>
 }
 
