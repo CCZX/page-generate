@@ -1,8 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { findParentNode } from './common'
 
-export function useDebounce() {
-  
+export function useDebounce(callback: noop, wait: number = 500, deps: any[] = []) {
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
+
+  return useCallback((...args) => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+    timerRef.current = setTimeout(() => {
+      callback.apply(null, args)
+    }, wait)
+  }, [...deps])
 }
 
 export function useMove<T extends HTMLElement>(

@@ -4,6 +4,7 @@ import Grid from './../components/grid'
 import CmpItem from './cmp-item'
 import { IAppState, actions } from './../../store'
 import { DRAG_DROP_CMP } from './../../const'
+import { useDebounce } from './../../utils'
 import './index.scss'
 
 interface IEditorLayoutProps {
@@ -21,6 +22,12 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
   })
 
   let editorPosition = { top: 0, left: 0 }
+
+  const getEditorRect = useDebounce(() => {
+    const rect = editorRef.current?.getBoundingClientRect()
+    setEditorRect(rect!)
+    editorPosition = { top: rect?.top || 0, left: rect?.left || 0 }
+  })
 
   useEffect(() => {
     function getEditorRect() {
