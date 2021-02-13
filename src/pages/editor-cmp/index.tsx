@@ -1,9 +1,11 @@
 import React, { FC, useCallback, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Tabs } from 'antd';
+import { useSelector } from 'react-redux'
+import { Tabs, Empty } from 'antd';
 import EditProps from './edit-props'
 import EditEvents from './edit-events'
-import { IAppState, actions } from './../../store'
+import EditStyle from './edit-style'
+import { IAppState } from './../../store'
+import { isEmpty } from './../../utils'
 import './index.scss'
 
 const { TabPane } = Tabs;
@@ -30,6 +32,12 @@ const EditorCmp: FC<any> = (props) => {
     setActiveTabPane(e)
   }, [])
 
+  if (isEmpty(selectedCmp)) {
+    return <div className="empty-wrapper">
+      <Empty description="请选择组件" />
+    </div>
+  }
+
   return <div className="editor-cmp">
     {selectedCmp.key}
     <Tabs
@@ -42,6 +50,9 @@ const EditorCmp: FC<any> = (props) => {
       </TabPane>
       <TabPane tab="事件" key="events">
         <EditEvents cmp={selectedCmp} />
+      </TabPane>
+      <TabPane tab="样式" key="style">
+        <EditStyle cmp={selectedCmp} />
       </TabPane>
     </Tabs>
   </div>
