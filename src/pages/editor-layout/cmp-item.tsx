@@ -8,16 +8,22 @@ import { processRenderCmpProps } from './utils'
 
 interface ICmpItemProps {
   cmp: ICmpSchema,
-  isPreview: boolean
+  isPreview: boolean,
+  editorRect: DOMRect,
 }
 
 const DEFAULT_CLS = "cmp-item-wrapper"
 const EDITOR_LAYOUT_CLS = 'editor-layout'
 
 const CmpItem: FC<ICmpItemProps> = (props) => {
-  const { cmp } = props
+  const { cmp, editorRect } = props
   const dispatch = useDispatch()
-  const [dragRef, isMoveing, diffPosition] = useMove<HTMLDivElement>()
+  const [dragRef, isMoveing, diffPosition] = useMove<HTMLDivElement>({
+    minTop: 0,
+    maxTop: editorRect.bottom - editorRect.top,
+    minLeft: 0,
+    maxLeft: editorRect.right - editorRect.left
+  })
 
   const selectedCmp =  useSelector((state: IAppState) => {
     return state.selectedCmp

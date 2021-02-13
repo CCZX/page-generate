@@ -5,20 +5,39 @@ export function useDebounce() {
   
 }
 
-export function useMove<T extends HTMLElement>(): [React.RefObject<T>, boolean, {left: number, top: number}] {
+export function useMove<T extends HTMLElement>(
+  range?: { minTop: number, maxTop: number, minLeft: number, maxLeft: number }
+): [React.RefObject<T>, boolean, {left: number, top: number}] {
+
+  const { minTop, maxTop, minLeft, maxLeft } = range || {}
+
   const dragRef = useRef<T>(null)
   const [isMoveing, setMoveing] = useState(false)
   const [positon, setPosition] = useState({left: 0, top: 0})
 
   let startX = 0, startY = 0, originTop = 0, originLeft = 0
+  const targetWidth = useRef(0)
+  const targetHeight = useRef(0)
 
   function handleMousemove(e: MouseEvent) {
     e.preventDefault()
     const { clientX, clientY } = e
     let diffX = clientX - startX
     let diffY = clientY - startY
-    const nextTop = originTop + diffY
-    const nextLeft = originLeft + diffX
+    let nextTop = originTop + diffY
+    let nextLeft = originLeft + diffX
+    if (minTop !== undefined) {
+      nextTop = nextTop < minTop ? minTop : nextTop
+    }
+    if (maxTop !== undefined) {
+      nextTop = nextTop > maxTop - targetHeight.current ? maxTop - targetHeight.current : nextTop
+    }
+    if (minLeft !== undefined) {
+      nextLeft = nextLeft < minLeft ? minLeft : nextLeft
+    }
+    if (maxLeft !== undefined) {
+      nextLeft = nextLeft > maxLeft - targetWidth.current ? maxLeft - targetWidth.current : nextLeft
+    }
     setPosition({ left: nextLeft, top: nextTop })
     setMoveing(true)
   }
@@ -36,6 +55,11 @@ export function useMove<T extends HTMLElement>(): [React.RefObject<T>, boolean, 
         console.warn(`[warning]`)
         return
       }
+      // if (!targetWidth.current || !targetHeight.current) {
+        const { width, height } = dragRef.current?.getBoundingClientRect()!
+        targetWidth.current = width
+        targetHeight.current = height
+      // }
       const { top = '0', left = '0' } = cmpWrapper.style || {}
       originTop = parseInt(top || '0')
       originLeft = parseInt(left || '0')

@@ -14,7 +14,7 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
   const { isPreview = false } = props
 
   const editorRef = useRef<HTMLDivElement>(null)
-  const [editorRect, setEditorRect] = useState({width: 0, height: 0})
+  const [editorRect, setEditorRect] = useState<DOMRect>({} as DOMRect)
   const dispatch = useDispatch()
   const renderedCmps = useSelector((state: IAppState) => {
     return state.renderedCmps
@@ -25,10 +25,7 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
   useEffect(() => {
     function getEditorRect() {
       const rect = editorRef.current?.getBoundingClientRect()
-      setEditorRect({
-        width: rect?.width || 0,
-        height: rect?.height || 0,
-      })
+      setEditorRect(rect!)
       editorPosition = { top: rect?.top || 0, left: rect?.left || 0 }
     }
     getEditorRect()
@@ -61,7 +58,12 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
     <Grid width={editorRect.width} height={editorRect.height} />
     {
       renderedCmps.map(cmp => {
-        return <CmpItem key={cmp.key} cmp={cmp} isPreview={isPreview} />
+        return <CmpItem 
+          key={cmp.key}
+          cmp={cmp}
+          isPreview={isPreview}
+          editorRect={editorRect}
+        />
       })
     }
   </div>
