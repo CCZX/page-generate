@@ -17,7 +17,8 @@ export function useDebounce(callback: noop, wait: number = 500, deps: any[] = []
 
 export function useMove<T extends HTMLElement>(
   range?: { minTop: number, maxTop: number, minLeft: number, maxLeft: number },
-  onMoveEnd?: noop
+  onMoveing?: noop,
+  onMoveEnd?: noop,
 ): [React.RefObject<T>, boolean, {left: number, top: number}] {
 
   const { minTop, maxTop, minLeft, maxLeft } = range || {}
@@ -32,6 +33,7 @@ export function useMove<T extends HTMLElement>(
 
   function handleMousemove(e: MouseEvent) {
     e.preventDefault()
+    onMoveing && onMoveing()
     const { clientX, clientY } = e
     let diffX = clientX - startX
     let diffY = clientY - startY

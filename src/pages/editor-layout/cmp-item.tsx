@@ -1,10 +1,13 @@
 import { CSSProperties, FC, useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Cover from './../components/cover'
+import MarkLine from './../components/mark-line'
 import { getCmpField } from './../../cmps/field'
 import { actions, IAppState } from './../../store'
 import { useMove, findParentNode } from './../../utils'
 import { processRenderCmpProps } from './utils'
+import publisher from './../event-bus'
+import { clearTimeout } from 'timers'
 
 interface ICmpItemProps {
   cmp: ICmpSchema,
@@ -23,6 +26,19 @@ const CmpItem: FC<ICmpItemProps> = (props) => {
     maxTop: editorRect.bottom - editorRect.top,
     minLeft: 0,
     maxLeft: editorRect.right - editorRect.left
+  }, () => {
+    const moveingNode = dragRef.current
+    publisher.emit('moveing', moveingNode)
+  }, () => {
+    const moveingNode = dragRef.current
+    publisher.emit('moveEnd', moveingNode)
+    // let timer = null
+    // if (timer) {
+    //   clearTimeout(timer)
+    // }
+    // setTimeout(() => {
+    //   publisher.emit('moveEnd', moveingNode)
+    // }, 100);
   })
 
   const selectedCmp =  useSelector((state: IAppState) => {
@@ -93,13 +109,6 @@ const CmpItem: FC<ICmpItemProps> = (props) => {
         eval(`${event.value}`)
       }
     }
-    // return {
-    //   onClick: function (e: any) {
-    //     eval(`(function test(e) {
-    //       console.log(e)
-    //     })(e)`)
-    //   }
-    // }
   }, {})
 
   const cls = useMemo(() => {

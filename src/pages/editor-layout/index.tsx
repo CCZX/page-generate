@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Grid from './../components/grid'
+import MarkLine from './../components/mark-line'
 import CmpItem from './cmp-item'
 import { IAppState, actions } from './../../store'
 import { DRAG_DROP_CMP, editorLayoutPosition } from './../../const'
@@ -59,6 +60,7 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
     onDragOver={handleDragOver}
     onDrop={handleDrop}
   >
+    <MarkLine />
     {
       !isPreview && <Grid width={editorRect.width} height={editorRect.height} />
     }

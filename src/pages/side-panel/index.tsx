@@ -11,7 +11,6 @@ const DragSourceCmpItem: FC<IDragSourceCmpItemProps> = ({ cmp }) => {
     const { offsetX, offsetY } = e.nativeEvent
     // @ts-ignore
     e.nativeEvent.target.style.cursor = 'grabbing'
-    console.log(e.nativeEvent.target)
     e.dataTransfer.setData(DRAG_DROP_CMP, JSON.stringify({
       cmpType: type,
       offsetX: offsetX,
