@@ -109,7 +109,10 @@ const CmpItem: FC<ICmpItemProps> = (props) => {
     {
       !isPreview && <Cover />
     }
-    <RenderCmp {...renderCmpPropsMap} {...renderCmpEvents} children={cmp.label} />
+    <RenderCmp
+      {...renderCmpPropsMap}
+      {...renderCmpEvents}
+    />
   </div>
 }
 

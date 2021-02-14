@@ -38,6 +38,12 @@ const ButtonConfig: ICmpSchema[] = [
           {key: 'default', value: 'default', label: 'default'},
         ]
       },
+      {
+        key: 'content',
+        label: '内容',
+        type: 'Input',
+        defaultValue: '按钮',
+      },
     ],
     events: [
       {
