@@ -30,6 +30,7 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
   })
 
   useEffect(() => {
+    if (isPreview) return
     function getEditorRect() {
       const rect = editorRef.current?.getBoundingClientRect()
       setEditorRect(rect!)
@@ -41,7 +42,7 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
     return () => {
       window.removeEventListener('resize', getEditorRect)
     }
-  }, [])
+  }, [isPreview])
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
@@ -62,7 +63,9 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
     onDragOver={handleDragOver}
     onDrop={handleDrop}
   >
-    <Grid width={editorRect.width} height={editorRect.height} />
+    {
+      !isPreview && <Grid width={editorRect.width} height={editorRect.height} />
+    }
     {
       renderedCmps.map(cmp => {
         return <CmpItem 

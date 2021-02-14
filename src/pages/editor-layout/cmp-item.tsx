@@ -16,7 +16,7 @@ const DEFAULT_CLS = "cmp-item-wrapper"
 const EDITOR_LAYOUT_CLS = 'editor-layout'
 
 const CmpItem: FC<ICmpItemProps> = (props) => {
-  const { cmp, editorRect } = props
+  const { cmp, editorRect, isPreview } = props
   const dispatch = useDispatch()
   const [dragRef, isMoveing, diffPosition] = useMove<HTMLDivElement>({
     minTop: 0,
@@ -75,14 +75,39 @@ const CmpItem: FC<ICmpItemProps> = (props) => {
 
   const renderCmpPropsMap = processRenderCmpProps(cmp.props)
 
+  const renderCmpEvents = cmp.events.reduce((eventsMap, event) => {
+    return { 
+      ...eventsMap,
+      [event.type]: function (e: any) {
+        eval(`${event.value}`)
+      }
+    }
+    // return {
+    //   onClick: function (e: any) {
+    //     eval(`(function test(e) {
+    //       console.log(e)
+    //     })(e)`)
+    //   }
+    // }
+  }, {})
+
+  const cls = useMemo(() => {
+    if (isPreview) {
+      return DEFAULT_CLS
+    }
+    return selectedCmp.key === cmp.key ? `${DEFAULT_CLS} active` : `${DEFAULT_CLS}`
+  }, [selectedCmp, cmp, isPreview])
+
   return <div
-    ref={dragRef}
-    className={ selectedCmp.key === cmp.key ? `${DEFAULT_CLS} active` : `${DEFAULT_CLS}`}
+    ref={isPreview ? null : dragRef}
+    className={cls}
     style={style}
     onClick={handleClick}
   >
-    <Cover />
-    <RenderCmp {...renderCmpPropsMap} children={cmp.label} />
+    {
+      !isPreview && <Cover />
+    }
+    <RenderCmp {...renderCmpPropsMap} {...renderCmpEvents} children={cmp.label} />
   </div>
 }
 
