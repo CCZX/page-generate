@@ -34,7 +34,7 @@ export function SelectField(props: IFieldProps) {
 export function SwitchField(props: IFieldProps) {
   const checked = Boolean(props.defaultValue)
   return <Switch
-    defaultChecked={checked}
+    checked={checked}
     checkedChildren="开启"
     unCheckedChildren="关闭"
     onChange={props.updateProp}
