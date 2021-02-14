@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Grid from './../components/grid'
 import CmpItem from './cmp-item'
 import { IAppState, actions } from './../../store'
-import { DRAG_DROP_CMP } from './../../const'
+import { DRAG_DROP_CMP, editorLayoutPosition } from './../../const'
 import { useDebounce } from './../../utils'
 import './index.scss'
 
@@ -21,20 +21,15 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
     return state.renderedCmps
   })
 
-  let editorPosition = { top: 0, left: 0 }
-
   const getEditorRect = useDebounce(() => {
     const rect = editorRef.current?.getBoundingClientRect()
     setEditorRect(rect!)
-    editorPosition = { top: rect?.top || 0, left: rect?.left || 0 }
   })
 
   useEffect(() => {
-    if (isPreview) return
     function getEditorRect() {
       const rect = editorRef.current?.getBoundingClientRect()
       setEditorRect(rect!)
-      editorPosition = { top: rect?.top || 0, left: rect?.left || 0 }
     }
     getEditorRect()
     window.addEventListener('resize', getEditorRect)
@@ -42,7 +37,7 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
     return () => {
       window.removeEventListener('resize', getEditorRect)
     }
-  }, [isPreview])
+  }, [])
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
@@ -51,7 +46,7 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     const { clientX, clientY } = e.nativeEvent
-    const { left, top } = editorPosition
+    const { left, top } = editorLayoutPosition
     const data = JSON.parse(e.dataTransfer.getData(DRAG_DROP_CMP))
     const { cmpType, offsetX, offsetY } = data
     const cmpPosition = { top: clientY - top - offsetY, left: clientX - left - offsetX }

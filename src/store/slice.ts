@@ -134,6 +134,16 @@ export const pgSlice = createSlice({
         selectedCmp.events[eventIndex].value = value
       }
     },
+    updateCmpPosition({ renderedCmps, selectedCmp }, action: PayloadAction<{
+      cmpKey: string, position: {left: number, top: number}
+    }>) {
+      const { payload: { cmpKey, position } } = action
+      console.log(position)
+      const cmp = renderedCmps.find(cmp => cmp.key === cmpKey)
+      if (cmp) {
+        cmp.position = position
+      }
+    }
   }
 })
 

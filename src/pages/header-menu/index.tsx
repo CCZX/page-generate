@@ -27,6 +27,7 @@ const HeaderMenu: FC<any> = (props) => {
 
     <Modal
       centered={true}
+      destroyOnClose={true}
       visible={previewModalVisible}
       title={'预览布局'}
       width={'95%'}

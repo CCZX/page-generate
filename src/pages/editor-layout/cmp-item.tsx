@@ -61,10 +61,19 @@ const CmpItem: FC<ICmpItemProps> = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
+      const { left, top } = diffPosition
       if (isMoveing && dragRef.current) {
-        const { left, top } = diffPosition
         dragRef.current.style.top = top + 'px'
         dragRef.current.style.left = left + 'px'
+      }
+      if (!isMoveing && dragRef.current && left && top) {
+        dispatch(actions.updateCmpPosition({
+          cmpKey: cmp.key || '',
+          position: {
+            left: left,
+            top: top,
+          }
+        }))
       }
     }, 0)
   }, [diffPosition, isMoveing])

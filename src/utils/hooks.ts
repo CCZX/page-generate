@@ -16,7 +16,8 @@ export function useDebounce(callback: noop, wait: number = 500, deps: any[] = []
 }
 
 export function useMove<T extends HTMLElement>(
-  range?: { minTop: number, maxTop: number, minLeft: number, maxLeft: number }
+  range?: { minTop: number, maxTop: number, minLeft: number, maxLeft: number },
+  onMoveEnd?: noop
 ): [React.RefObject<T>, boolean, {left: number, top: number}] {
 
   const { minTop, maxTop, minLeft, maxLeft } = range || {}
@@ -54,6 +55,9 @@ export function useMove<T extends HTMLElement>(
 
   function handleMouseleave() {
     setMoveing(false)
+    setTimeout(() => {
+      typeof onMoveEnd === 'function' && onMoveEnd()
+    }, 0);
     document.removeEventListener('mousemove', handleMousemove)
     document.removeEventListener('mouseleave', handleMouseleave)
   }
