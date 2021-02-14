@@ -50,10 +50,11 @@ const EditorLayout: FC<IEditorLayoutProps> = (props) => {
 
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
-    const { clientX, clientY } = e
+    const { clientX, clientY } = e.nativeEvent
     const { left, top } = editorPosition
-    const cmpPosition = { top: clientY - top, left: clientX - left }
-    const cmpType = e.dataTransfer.getData(DRAG_DROP_CMP)
+    const data = JSON.parse(e.dataTransfer.getData(DRAG_DROP_CMP))
+    const { cmpType, offsetX, offsetY } = data
+    const cmpPosition = { top: clientY - top - offsetY, left: clientX - left - offsetX }
     dispatch(actions.createCmp({ cmpType, cmpPosition }))
   }, [])
 

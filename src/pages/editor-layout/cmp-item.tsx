@@ -30,9 +30,11 @@ const CmpItem: FC<ICmpItemProps> = (props) => {
   })
 
   const handleClick = useCallback(() => {
-    dragRef.current?.classList.add('active')
-    dispatch(actions.setSelectedCmp(cmp.key || ''))
-  }, [])
+    if (!isPreview) {
+      dragRef.current?.classList.add('active')
+      dispatch(actions.setSelectedCmp(cmp.key || ''))
+    }
+  }, [isPreview])
 
   useEffect(() => {
     const editorLayoutDOM = document.querySelector(`.${EDITOR_LAYOUT_CLS}`)

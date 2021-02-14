@@ -8,14 +8,40 @@ const DragSourceCmpItem: FC<IDragSourceCmpItemProps> = ({ cmp }) => {
   const { label } = cmp
 
   const handleDragStart = useCallback((e: React.DragEvent, type: string) => {
-    console.log('handleDragStart', e, type)
-    e.dataTransfer.setData(DRAG_DROP_CMP, type)
+    const { offsetX, offsetY } = e.nativeEvent
+    // @ts-ignore
+    e.nativeEvent.target.style.cursor = 'grabbing'
+    console.log(e.nativeEvent.target)
+    e.dataTransfer.setData(DRAG_DROP_CMP, JSON.stringify({
+      cmpType: type,
+      offsetX: offsetX,
+      offsetY: offsetY
+    }))
+  }, [])
+
+  const handleDragEnd = useCallback((e: React.DragEvent) => {
+    // @ts-ignore
+    e.nativeEvent.target.style.cursor = 'grab'
+  }, [])
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // @ts-ignore
+    e.nativeEvent.target.style.cursor = 'grabbing'
+  }, [])
+
+  const handleMouseUp = useCallback((e: React.MouseEvent) => {
+    // @ts-ignore
+    e.nativeEvent.target.style.cursor = 'grab'
   }, [])
 
   return <div
     className="cmp-item"
     draggable={true}
     onDragStart={(e) => handleDragStart(e, cmp.type)}
+    onDragEnd={handleDragEnd}
+    
+    // onMouseDown={handleMouseDown}
+    // onMouseUp={handleMouseUp}
   >
     {label}
   </div>

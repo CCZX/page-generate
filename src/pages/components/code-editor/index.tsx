@@ -19,6 +19,10 @@ const CodeEditor: FC<ICodeEditorProps> = (props) => {
      defaultLanguage="javascript"
      value={value}
      onChange={handleCodeChange}
+     options={{
+       fontSize: 14,
+       tabSize: 2,
+     }}
    />
   );
 }
