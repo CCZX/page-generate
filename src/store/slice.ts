@@ -61,7 +61,8 @@ const mock: ICmpSchema = {
     {
       "key": "onClick1",
       "label": "点击事件",
-      "type": "onClick"
+      "type": "onClick",
+      value: '',
     }
   ],
   "key": "14464feb-0a54-8a8c-931f-7b5aa7d9952d"
@@ -121,6 +122,17 @@ export const pgSlice = createSlice({
       const { payload: key } = action
       const cmp = state.renderedCmps.find(cmp => cmp.key === key) || {}
       state.selectedCmp = cmp as ICmpSchema
+    },
+    updateCmpEvents({ renderedCmps, selectedCmp }, action: PayloadAction<{
+      cmpKey: string, eventKey: string, value: string
+    }>) {
+      const { payload: { cmpKey, eventKey, value } } = action
+      const cmp = renderedCmps.find(cmp => cmp.key === cmpKey)
+      if (cmp) {
+        const eventIndex = cmp.events.findIndex(event => event.key === eventKey)
+        cmp.events[eventIndex].value = value
+        selectedCmp.events[eventIndex].value = value
+      }
     },
   }
 })

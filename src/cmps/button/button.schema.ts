@@ -41,10 +41,17 @@ const ButtonConfig: ICmpSchema[] = [
     ],
     events: [
       {
-        key: 'onClick1',
+        key: 'onClick',
         label: '点击事件',
         type: 'onClick',
-      }
+        value: '',
+      },
+      {
+        key: 'onBlur',
+        label: '失焦事件',
+        type: 'onBlur',
+        value: '',
+      },
     ]
   }
 ]

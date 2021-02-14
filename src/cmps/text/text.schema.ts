@@ -18,6 +18,7 @@ const TextConfig: ICmpSchema[] = [
         key: 'onClick1',
         label: '点击事件',
         type: 'onClick',
+        value: '',
       }
     ]
   }

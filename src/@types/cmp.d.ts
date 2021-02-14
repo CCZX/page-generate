@@ -28,7 +28,7 @@ declare interface ICmpSchemaEvent {
   key: string
   label: string
   type: string // 事件类型，比如onClick、onChange...
-  handler?: (...args: any[]) => any // 事件处理函数
+  value: string // 事件处理函数
 }
 
 declare module 'url' {
