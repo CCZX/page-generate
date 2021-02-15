@@ -13,10 +13,13 @@ declare interface ICmpSchema {
 declare interface ICmpSchemaProp {
   key: string
   label: string
-  type: 'Input' | 'Select' | 'Switch' // 配置该 property 时渲染的组件类型，只支持特定类型
-  defaultValue?: string | boolean // 'v,v,v,v'
+  type: 'Input' | 'Select' | 'Switch' | 'TextArea' // 配置该 property 时渲染的组件类型，只支持特定类型
+  value?: string | boolean | any[] // 'v,v,v,v'
   dataSource?: IDataSource[]
+  keepValue?: any // 保持原有格式的value，比如保持换行、空格等
 }
+
+declare type ICmpSchemaPropKeys = keyof ICmpSchemaProp
 
 declare interface IDataSource {
   key: string

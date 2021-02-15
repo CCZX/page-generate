@@ -87,7 +87,7 @@ const CmpItem: FC<ICmpItemProps> = (props) => {
   }, [diffPosition, isMoveing])
 
   const style: CSSProperties = {
-    width: (cmp.props || []).find(p => p.key === 'width')?.defaultValue + 'px',
+    width: (cmp.props || []).find(p => p.key === 'width')?.value + 'px',
     ...cmpPosition,
   }
   const RenderCmp = getCmpField(cmp.type)
@@ -121,7 +121,7 @@ const CmpItem: FC<ICmpItemProps> = (props) => {
     }
     {
       !isPreview && cmpWrapPoints.map(p => {
-        return <div className={`point point-${p}`} />
+        return <div key={p} className={`point point-${p}`} />
       })
     }
     <RenderCmp

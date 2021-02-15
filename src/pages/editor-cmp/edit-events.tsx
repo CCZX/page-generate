@@ -51,7 +51,8 @@ const EditEvents: FC<IEditEventProps> = ({ cmp }) => {
       {
         events.map(eventItem => {
           return <Panel header={eventItem.label} key={eventItem.key}>
-            <button onClick={() => handleShowCodeModal(eventItem)}>添加</button>
+            <button onClick={() => handleShowCodeModal(eventItem)}>自定义代码</button>
+            <button></button>
           </Panel>
         })
       }

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import clonedeep from 'lodash.clonedeep'
+import { type } from 'os'
 import allCmpsListSchema from './../cmps'
 import { uuid } from './../utils'
 
@@ -11,37 +12,37 @@ const mock: ICmpSchema = {
       "key": "margin",
       "label": "外边距（上右下左）",
       "type": "Input",
-      "defaultValue": "0,0,0,0"
+      "value": "0,0,0,0"
     },
     {
       "key": "padding",
       "label": "内边距（上右下左）",
       "type": "Input",
-      "defaultValue": "0,0,0,0"
+      "value": "0,0,0,0"
     },
     {
       "key": "border",
       "label": "边框（上右下左）",
       "type": "Input",
-      "defaultValue": "0,0,0,0"
+      "value": "0,0,0,0"
     },
     {
       "key": "width",
       "label": "宽",
       "type": "Input",
-      "defaultValue": "auto"
+      "value": "auto"
     },
     {
       "key": "height",
       "label": "高",
       "type": "Input",
-      "defaultValue": "auto"
+      "value": "auto"
     },
     {
       "key": "size",
       "label": "尺寸",
       "type": "Select",
-      "defaultValue": "large",
+      "value": "large",
       "dataSource": [{
         key: 'large',
         label: '大',
@@ -105,23 +106,26 @@ export const pgSlice = createSlice({
         selectedCmp = {} as ICmpSchema
       }
     },
-    // 更新组件
-    updateCmp({ renderedCmps, selectedCmp }, action: PayloadAction<{
-      cmpKey: string, propKey: string, propValue: string | boolean
-    }>) {
-      const { payload: { cmpKey, propKey, propValue } } = action
-      const cmp = renderedCmps.find(cmp => cmp.key === cmpKey)
-      if (cmp) {
-        const propIndex = cmp.props.findIndex(prop => prop.key === propKey)
-        cmp.props[propIndex].defaultValue = propValue
-        selectedCmp.props[propIndex].defaultValue = propValue
-      }
-    },
     // 当前选中的组件
     setSelectedCmp(state, action: PayloadAction<string>) {
       const { payload: key } = action
       const cmp = state.renderedCmps.find(cmp => cmp.key === key) || {}
       state.selectedCmp = cmp as ICmpSchema
+    },
+    // 更新组件props
+    updateCmpProps({ renderedCmps, selectedCmp }, action: PayloadAction<{
+      cmpKey: string,
+      propKey: string,
+      propFieldKey: ICmpSchemaPropKeys,
+      propFieldValue: string | boolean
+    }>) {
+      const { payload: { cmpKey, propKey, propFieldKey, propFieldValue } } = action
+      const cmp = renderedCmps.find(cmp => cmp.key === cmpKey)
+      if (cmp) {
+        const propIndex = cmp.props.findIndex(prop => prop.key === propKey)
+        cmp.props[propIndex][propFieldKey] = propFieldValue
+        selectedCmp.props[propIndex][propFieldKey] = propFieldValue
+      }
     },
     updateCmpEvents({ renderedCmps, selectedCmp }, action: PayloadAction<{
       cmpKey: string, eventKey: string, value: string

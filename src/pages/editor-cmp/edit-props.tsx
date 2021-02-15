@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Fields from './fields'
 import { actions } from './../../store'
@@ -12,8 +12,13 @@ const EditProps: FC<IEditPropsProps> = ({ cmp }) => {
   const { props: currCmpProps } = cmp
   const dispatch = useDispatch()
 
-  const handleCmpPropsChange = useCallback((cmpKey: string, propKey: string, propValue: string | boolean) => {
-    dispatch(actions.updateCmp({ cmpKey, propKey, propValue }))
+  const handleCmpPropsChange = useCallback((
+    cmpKey: string,
+    propKey: string,
+    propFieldKey: ICmpSchemaPropKeys,
+    propFieldValue: string | boolean,
+  ) => {
+    dispatch(actions.updateCmpProps({ cmpKey, propKey, propFieldKey, propFieldValue }))
   }, [])
 
   return <div className="editor-cmp__props">
@@ -27,8 +32,8 @@ const EditProps: FC<IEditPropsProps> = ({ cmp }) => {
           <div className="prop-value">
             <Field
               {...cmpProp}
-              updateProp={(value) => {
-                handleCmpPropsChange(cmp.key || '', cmpProp.key, value)
+              updateProp={(key, value) => {
+                handleCmpPropsChange(cmp.key || '', cmpProp.key, key, value)
               }}
             />
           </div>

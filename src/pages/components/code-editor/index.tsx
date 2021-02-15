@@ -1,13 +1,14 @@
 import React, { FC, useCallback } from "react";
-import Editor from "@monaco-editor/react";
+import Editor, { EditorProps } from "@monaco-editor/react";
 
 interface ICodeEditorProps  {
   value: string,
   onChange: (value: string) => void
+  language?: string
 }
 
 const CodeEditor: FC<ICodeEditorProps> = (props) => {
-  const { value, onChange } = props
+  const { value, onChange, language = 'javascript' } = props
 
   const handleCodeChange = useCallback((value) => {
     onChange(value)
@@ -16,7 +17,7 @@ const CodeEditor: FC<ICodeEditorProps> = (props) => {
   return (
    <Editor
      height="60vh"
-     defaultLanguage="javascript"
+     language={language}
      value={value}
      onChange={handleCodeChange}
      options={{
