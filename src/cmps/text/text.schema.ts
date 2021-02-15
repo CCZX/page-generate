@@ -10,7 +10,7 @@ const TextConfig: ICmpSchema[] = [
         key: 'content',
         label: '文本内容',
         type: 'Input',
-        defaultValue: '',
+        value: '',
       }
     ],
     events: [

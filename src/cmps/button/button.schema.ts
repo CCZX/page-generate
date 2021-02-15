@@ -10,14 +10,14 @@ const ButtonConfig: ICmpSchema[] = [
         key: 'danger',
         label: '设置危险按钮',
         type: 'Switch',
-        defaultValue: false,
+        value: false,
         dataSource: []
       },
       {
         key: 'size',
         label: '设置按钮大小',
         type: 'Select',
-        defaultValue: 'middle',
+        value: 'middle',
         dataSource: [
           {key: 'large', value: 'large', label: 'large'},
           {key: 'middle', value: 'middle', label: 'middle'},
@@ -28,7 +28,7 @@ const ButtonConfig: ICmpSchema[] = [
         key: 'type',
         label: '设置按钮类型',
         type: 'Select',
-        defaultValue: 'default',
+        value: 'default',
         dataSource: [
           {key: 'primary', value: 'primary', label: 'primary'},
           {key: 'ghost', value: 'ghost', label: 'ghost'},
@@ -42,7 +42,7 @@ const ButtonConfig: ICmpSchema[] = [
         key: 'content',
         label: '内容',
         type: 'Input',
-        defaultValue: '按钮',
+        value: '按钮',
       },
     ],
     events: [
