@@ -6,13 +6,14 @@ import './index.scss'
 const nearDistance = 2
 // 展示的🧵，X轴上中下、Y轴上中下
 const lines = ['xt', 'xc', 'xb', 'yr', 'yc', 'yl'] as const
-type TypeLines = typeof lines[number]
 
-function genLinesMap(flag: boolean) {
-  return lines.reduce<{[key in TypeLines]: boolean}>((res, currLine) => {
-    return { ...res, [currLine]: flag }
-  }, {} as {[key in TypeLines]: boolean})
-}
+// type TypeLines = typeof lines[number]
+
+// function genLinesMap(flag: boolean) {
+//   return lines.reduce<{[key in TypeLines]: boolean}>((res, currLine) => {
+//     return { ...res, [currLine]: flag }
+//   }, {} as {[key in TypeLines]: boolean})
+// }
 
 function isNear(pA: number, pB: number) {
   return Math.abs(pA - pB) < nearDistance
@@ -103,6 +104,7 @@ const MarkLine: FC = () => {
         return <div
           key={lineItem}
           className={`${lineItem} ${lineItem.includes('x') ? 'x-line' : 'y-line'} line`}
+          style={{visibility: 'hidden'}}
         />
       })
     }

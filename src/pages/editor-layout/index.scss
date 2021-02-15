@@ -5,8 +5,70 @@
   .cmp-item-wrapper {
     position: absolute;
     display: inline-block;
+    .point {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1px solid #59c7f9;
+      background-color: #fff;
+    }
+    // 'tl', 'tc', 'tr', 'rc', 'br', 'bc', 'bl', 'lc'
+    .point.point-tl {
+      top: 0;
+      left: 0;
+      margin: -4px 0 0 -4px;
+      cursor: nw-resize;
+    }
+    .point.point-tc {
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      cursor: n-resize;
+    }
+    .point.point-tr {
+      top: 0;
+      right: 0;
+      transform: translate(50%, -50%);
+      cursor: ne-resize;
+    }
+    .point.point-rc {
+      top: 50%;
+      right: 0;
+      transform: translate(50%, -50%);
+      cursor: e-resize;
+    }
+    .point.point-br {
+      right: 0;
+      bottom: 0;
+      transform: translate(50%, 50%);
+      cursor: se-resize;
+    }
+    .point.point-bc {
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      cursor: s-resize;
+    }
+    .point.point-bl {
+      bottom: 0;
+      left: 0;
+      transform: translate(-50%, 50%);
+      cursor: sw-resize;
+    }
+    .point.point-lc {
+      top: 50%;
+      left: 0;
+      transform: translate(-50%, -50%);
+      cursor: w-resize;
+    }
     &.active {
-      outline: 1px solid #40a9ff;
+      outline: 1px solid #59c7f9;
+      .point {
+        display: block;
+      }
     }
   }
 }
