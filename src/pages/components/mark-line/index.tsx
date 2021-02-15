@@ -33,7 +33,7 @@ const MarkLine: FC = () => {
   const showLines = useCallback((moveingNode: HTMLElement) => {
     const linesWrap = document.querySelector('.mark-lines')
     hiddenLines()
-    const allRenderedCmps = document.querySelectorAll('.cmp-item-wrapper')
+    const allRenderedCmps = Array.from(document.querySelectorAll('.cmp-item-wrapper'))
     const {
       width: moveingNodeWidth,
       height: moveingNodeHeight,
@@ -55,29 +55,34 @@ const MarkLine: FC = () => {
     lines[3].style.left = moveingNodeYrDis + 'px'
     lines[4].style.left = moveingNodeYcDis + 'px'
     lines[5].style.left = moveingNodeYlDis + 'px'
-    allRenderedCmps.forEach(cmpNode => {
-      if (cmpNode !== moveingNode) {
-        const { width, height, top, bottom, right, left } = cmpNode.getBoundingClientRect()
+    function showXLine(xDistance: number) {
+      return allRenderedCmps.some(node => {
+        const { height, top, bottom } = node.getBoundingClientRect()
         const xtDis = top - editorLayoutPosition.top
         const xcDis = top - editorLayoutPosition.top + height/2
         const xbDis = bottom - editorLayoutPosition.top
+        return node !== moveingNode && (
+          isNear(xtDis, xDistance) || isNear(xcDis, xDistance) || isNear(xbDis, xDistance)
+        )
+      })
+    }
+    function showYLine(yDistance: number) {
+      return allRenderedCmps.some(node => {
+        const { width, right, left } = node.getBoundingClientRect()
         const yrDis = right - editorLayoutPosition.left
         const ycDis = right - editorLayoutPosition.left - width/2
         const ylDis = left - editorLayoutPosition.left
-        const isNearXt = isNear(xtDis, moveingNodeXtDis) || isNear(xcDis, moveingNodeXtDis) || isNear(xbDis, moveingNodeXtDis)
-        const isNearXc = isNear(xcDis, moveingNodeXcDis) || isNear(xbDis, moveingNodeXcDis) || isNear(xtDis, moveingNodeXcDis)
-        const isNearXb = isNear(xbDis, moveingNodeXbDis) || isNear(xcDis, moveingNodeXbDis) || isNear(xtDis, moveingNodeXbDis)
-        const isNearYr = isNear(yrDis, moveingNodeYrDis) || isNear(ycDis, moveingNodeYrDis) || isNear(ylDis, moveingNodeYrDis)
-        const isNearYc = isNear(ycDis, moveingNodeYcDis) || isNear(yrDis, moveingNodeYcDis) || isNear(ylDis, moveingNodeYcDis)
-        const isNearYl = isNear(ylDis, moveingNodeYlDis) || isNear(yrDis, moveingNodeYlDis) || isNear(ycDis, moveingNodeYlDis)
-        lines[0].style.visibility = isNearXt ? 'visible' : 'hidden'
-        lines[1].style.visibility = isNearXc ? 'visible' : 'hidden'
-        lines[2].style.visibility = isNearXb ? 'visible' : 'hidden'
-        lines[3].style.visibility = isNearYr ? 'visible' : 'hidden'
-        lines[4].style.visibility = isNearYc ? 'visible' : 'hidden'
-        lines[5].style.visibility = isNearYl ? 'visible' : 'hidden'
-      }
-    })
+        return node !== moveingNode && (
+          isNear(yrDis, yDistance) || isNear(ycDis, yDistance) || isNear(ylDis, yDistance)
+        )
+      })
+    }
+    lines[0].style.visibility = showXLine(moveingNodeXtDis) ? 'visible' : 'hidden'
+    lines[1].style.visibility = showXLine(moveingNodeXcDis) ? 'visible' : 'hidden'
+    lines[2].style.visibility = showXLine(moveingNodeXbDis) ? 'visible' : 'hidden'
+    lines[3].style.visibility = showYLine(moveingNodeYrDis) ? 'visible' : 'hidden'
+    lines[4].style.visibility = showYLine(moveingNodeYcDis) ? 'visible' : 'hidden'
+    lines[5].style.visibility = showYLine(moveingNodeYlDis) ? 'visible' : 'hidden'
   }, [linesRef.current])
 
   useEffect(() => {
