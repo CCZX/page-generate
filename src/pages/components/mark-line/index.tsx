@@ -1,13 +1,10 @@
-import React, { FC, useCallback, useRef, useState } from 'react'
+import { FC, useCallback, useEffect, useRef } from 'react'
 import publisher from './../../event-bus'
 import { editorLayoutPosition } from './../../../const'
 import './index.scss'
 
-interface IMarkLineProps {
-  // moveingNode: HTMLElement
-}
-
-const nearDistance = 5
+const nearDistance = 2
+// 展示的🧵，X轴上中下、Y轴上中下
 const lines = ['xt', 'xc', 'xb', 'yr', 'yc', 'yl'] as const
 type TypeLines = typeof lines[number]
 
@@ -21,11 +18,10 @@ function isNear(pA: number, pB: number) {
   return Math.abs(pA - pB) < nearDistance
 }
 
-const MarkLine: FC<IMarkLineProps> = (props) => {
+const MarkLine: FC = () => {
   const linesRef = useRef<HTMLDivElement>(null)
-  const [linesVisible, setLinesVisible] = useState<{[key in TypeLines]: boolean}>(genLinesMap(false))
+  // const [linesVisible, setLinesVisible] = useState<{[key in TypeLines]: boolean}>(genLinesMap(false))
   
-
   const hiddenLines = useCallback(() => {
     const linesWrap = document.querySelector('.mark-lines')
     const lines = Array.from(linesWrap?.children || []) as HTMLElement[]
@@ -68,35 +64,33 @@ const MarkLine: FC<IMarkLineProps> = (props) => {
         const yrDis = right - editorLayoutPosition.left
         const ycDis = right - editorLayoutPosition.left - width/2
         const ylDis = left - editorLayoutPosition.left
-        // console.log(xtDis, xcDis, xbDis, yrDis, ycDis, ylDis)
-        const nextLinesVisible = linesVisible
-        console.log(nextLinesVisible)
-        const nearXt = isNear(xtDis, moveingNodeXtDis) || isNear(xbDis, moveingNodeXtDis)
-        const nearXc = isNear(xcDis, moveingNodeXcDis)
-        const nearXb = isNear(xbDis, moveingNodeXbDis)
-        const nearYr = isNear(yrDis, moveingNodeYrDis)
-        const nearYc = isNear(ycDis, moveingNodeYcDis)
-        const nearYl = isNear(ylDis, moveingNodeYlDis)
-        console.log(nearXt, nearXc, nearXb, nearYr, nearYc, nearYl)
-        lines[0].style.visibility = nearXt ? 'visible' : 'hidden'
-        lines[1].style.visibility = nearXc ? 'visible' : 'hidden'
-        lines[2].style.visibility = nearXb ? 'visible' : 'hidden'
-        lines[3].style.visibility = nearYr ? 'visible' : 'hidden'
-        lines[4].style.visibility = nearYc ? 'visible' : 'hidden'
-        lines[5].style.visibility = nearYl ? 'visible' : 'hidden'
-        setLinesVisible(nextLinesVisible)
+        const isNearXt = isNear(xtDis, moveingNodeXtDis) || isNear(xcDis, moveingNodeXtDis) || isNear(xbDis, moveingNodeXtDis)
+        const isNearXc = isNear(xcDis, moveingNodeXcDis) || isNear(xbDis, moveingNodeXcDis) || isNear(xtDis, moveingNodeXcDis)
+        const isNearXb = isNear(xbDis, moveingNodeXbDis) || isNear(xcDis, moveingNodeXbDis) || isNear(xtDis, moveingNodeXbDis)
+        const isNearYr = isNear(yrDis, moveingNodeYrDis) || isNear(ycDis, moveingNodeYrDis) || isNear(ylDis, moveingNodeYrDis)
+        const isNearYc = isNear(ycDis, moveingNodeYcDis) || isNear(yrDis, moveingNodeYcDis) || isNear(ylDis, moveingNodeYcDis)
+        const isNearYl = isNear(ylDis, moveingNodeYlDis) || isNear(yrDis, moveingNodeYlDis) || isNear(ycDis, moveingNodeYlDis)
+        lines[0].style.visibility = isNearXt ? 'visible' : 'hidden'
+        lines[1].style.visibility = isNearXc ? 'visible' : 'hidden'
+        lines[2].style.visibility = isNearXb ? 'visible' : 'hidden'
+        lines[3].style.visibility = isNearYr ? 'visible' : 'hidden'
+        lines[4].style.visibility = isNearYc ? 'visible' : 'hidden'
+        lines[5].style.visibility = isNearYl ? 'visible' : 'hidden'
       }
     })
-  }, [linesRef.current, linesVisible])
+  }, [linesRef.current])
 
-  publisher.on('moveing', (node: HTMLElement) => {
-    console.log('moveing')
-    showLines(node)
-  }, 'watcherMoveing')
+  useEffect(() => {
+    publisher.on('moveing', (node: HTMLElement) => {
+      showLines(node)
+    }, 'watcherMoveing')
 
-  publisher.on('moveEnd', (node: HTMLElement) => {
+    publisher.on('moveEnd', () => {
+      hiddenLines()
+    }, 'watcherMoveEnd')
+
     hiddenLines()
-  }, 'watcherMoveEnd')
+  }, [])
 
   return <div ref={linesRef} className="mark-lines">
     {
@@ -104,7 +98,6 @@ const MarkLine: FC<IMarkLineProps> = (props) => {
         return <div
           key={lineItem}
           className={`${lineItem} ${lineItem.includes('x') ? 'x-line' : 'y-line'} line`}
-          // style={{visibility: linesVisible[lineItem] ? 'visible' : 'hidden'}}
         />
       })
     }
