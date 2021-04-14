@@ -13,6 +13,13 @@ const ListConfig: ICmpSchema[] = [
         value: '',
         keepValue: '',
       },
+      {
+        key: 'renderItem',
+        label: '自定义渲染列表项',
+        type: 'TextArea',
+        value: '',
+        keepValue: '',
+      },
     ],
     events: [
       // {

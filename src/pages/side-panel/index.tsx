@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react'
-import cmpsSchema from '../../cmps'
+import cmpsSchema from '../../atom-cmps'
 import { DRAG_DROP_CMP } from './../../const'
 import { IDragSourceCmpItemProps } from './type'
 import './index.scss'

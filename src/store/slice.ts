@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import clonedeep from 'lodash.clonedeep'
 import { type } from 'os'
-import allCmpsListSchema from './../cmps'
+import allCmpsListSchema from '../atom-cmps'
 import { uuid } from './../utils'
 
 const mock: ICmpSchema = {

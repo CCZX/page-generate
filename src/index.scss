@@ -1,0 +1,14 @@
+.code-format-error {
+  .ant-message-notice-content {
+    width: 300px;
+  }
+  .ant-message-error {
+    text-align: left;
+    position: relative;
+    .title {
+      position: absolute;
+      top: 0;
+      left: 24px;
+    }
+  }
+}

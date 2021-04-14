@@ -3,6 +3,7 @@ import { Input, Select, Switch, message } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import Modal from 'antd/lib/modal/Modal'
 import CodeEditor from './../components/code-editor'
+import { correctCode } from './../../const'
 
 const fieldsMap: { [key: string]: Function } = {
   Input: Input,
@@ -62,15 +63,25 @@ export function TextAreaField(props: IFieldProps) {
   const closeModal = useCallback(() => {
     setModalVisible(false)
   }, [])
-
+  // CloseCircleOutlined
   const saveValue = useCallback(() => {
-    let parseValue
     try {
-      parseValue = eval(String(value))
-      // props.updateProp(parseValue)
-      // props.updateProp(value)
+      // 使用eval把"[{},...]"转为真正的数组
+      const parseValue = eval(String(value))
+      props.updateProp('value', parseValue)
+      props.updateProp('keepValue', value)
     } catch (error) {
-      message.error('错误')
+      message.error({
+        className: 'code-format-error',
+        content: <div className="code-format-error">
+          <p className="title">输入格式错误，正确格式如下：</p>
+          <pre>
+            <code>
+              {correctCode}
+            </code>
+          </pre>
+        </div>,
+      })
     }
   }, [value])
 

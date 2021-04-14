@@ -1,7 +1,7 @@
 import { CSSProperties, FC, useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Cover from './../components/cover'
-import { getCmpField } from './../../cmps/field'
+import { getCmpField } from '../../atom-cmps/field'
 import { actions, IAppState } from './../../store'
 import { useMove, findParentNode } from './../../utils'
 import { processRenderCmpProps } from './utils'
